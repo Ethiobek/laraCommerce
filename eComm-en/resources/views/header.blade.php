@@ -1,6 +1,11 @@
 <?php
 use App\Http\Controllers\ProductController;
-$total=ProductController::cartItem();
+$total=0;
+if(Session::has('user'))
+{
+  $total=ProductController::cartItem();
+}
+
 ?>
 
 <nav class="navbar navbar-default">
@@ -13,15 +18,12 @@ $total=ProductController::cartItem();
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="#">Brand</a>
+        <a class="navbar-brand" href="/">ሸመታ</a>
       </div>
-  
-      <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
-          <li class="active"><a href="#">Home</a></li>
+          <li class="active"><a href="/">Home</a></li>
           <li><a href="">Orders</a></li>
-         
         </ul>
         <form action="search" class="navbar-form navbar-left">
           <div class="form-group">
@@ -30,8 +32,19 @@ $total=ProductController::cartItem();
           <button type="submit" class="btn btn-default">Search</button>
         </form>
         <ul class="nav navbar-nav navbar-right">
-          <li><a href="#">Cart({{$total}})</a></li>
+          <li><a href="/cartlist">Cart({{$total}})</a></li>
+          @if(Session::has('user'))
+          <li class="dropdown">
+            <a href="" data-toggle="dropdown" class="dropdown-toggle">{{Session::get('user')['name']}}
+            <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="/logout">Logout</a></li>
+            </ul>
+          </li>
+          @else
+            <li><a href="/login">Login</a></li>
+          @endif
         </ul>
-      </div><!-- /.navbar-collapse -->
-    </div><!-- /.container-fluid -->
+      </div>
+    </div>
   </nav>
